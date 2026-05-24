@@ -1,17 +1,56 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Life OS : Infinite Loop Dashboard</title>
     <style>
-        :root {
-            --bg-color: #05070f;
-            --panel-bg: #0d1222;
+        /* 테마별 감성 메쉬 그라데이션 및 그리드 패턴 설정 */
+        :root[data-theme="light"] {
+            /* 화이트 모드: 감성 충만한 차분한 아침 안개 느낌 */
+            --bg-image: 
+                radial-gradient(at 0% 0%, rgba(224, 231, 255, 0.6) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(243, 232, 255, 0.6) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(207, 250, 254, 0.4) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(254, 243, 199, 0.4) 0px, transparent 50%);
+            --bg-color: #f8fafc;
+            --grid-color: rgba(15, 23, 42, 0.03);
+            
+            --panel-bg: rgba(255, 255, 255, 0.75);
+            --panel-border: rgba(15, 23, 42, 0.08);
+            --text-main: #0f172a;
+            --text-muted: #627185;
+            --ticker-bg: rgba(15, 23, 42, 0.05);
+            --shadow-color: rgba(15, 23, 42, 0.04);
+            --btn-bg: #0f172a;
+            --btn-text: #ffffff;
+            
+            --cls-knowledge: #7c3aed;
+            --cls-work: #1d4ed8;
+            --cls-side: #0e7490;
+            --cls-invest: #b45309;
+            --cls-estate: #047857;
+        }
+
+        :root[data-theme="dark"] {
+            /* 다크 모드: 오로라가 치는 깊은 밤하늘의 우주 느낌 */
+            --bg-image: 
+                radial-gradient(at 0% 0%, rgba(124, 58, 237, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.12) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(6, 182, 212, 0.08) 0px, transparent 40%),
+                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
+            --bg-color: #030712;
+            --grid-color: rgba(255, 255, 255, 0.015);
+            
+            --panel-bg: rgba(13, 18, 34, 0.45);
+            --panel-border: rgba(255, 255, 255, 0.04);
             --text-main: #f8fafc;
             --text-muted: #475569;
+            --ticker-bg: rgba(0, 0, 0, 0.4);
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --btn-bg: #ffffff;
+            --btn-text: #030712;
             
-            /* 네온 컬러 스케일 */
             --cls-knowledge: #a855f7;
             --cls-work: #3b82f6;
             --cls-side: #06b6d4;
@@ -24,154 +63,196 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Pretendard', -apple-system, system-ui, sans-serif;
+            transition: background 0.4s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         body {
             background-color: var(--bg-color);
+            background-image: var(--bg-image);
             color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
             overflow-x: hidden;
+            padding-bottom: 100px;
+            position: relative;
         }
 
-        .dashboard {
-            max-width: 1100px;
+        /* 감성적인 엔지니어링 그리드 배경 레이어 */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 테마 토글 스위치 */
+        .theme-toggle-wrap {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 100;
+        }
+
+        .theme-btn {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            color: var(--text-main);
+            padding: 12px 20px;
+            border-radius: 100px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            box-shadow: 0 10px 25px var(--shadow-color);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(12px);
+        }
+
+        /* 스크롤 애니메이션 클래스 (사라락 효과) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 섹션 컨테이너 */
+        .section-container {
+            max-width: 1140px;
             width: 100%;
-            background: rgba(13, 18, 34, 0.65);
-            border-radius: 32px;
-            padding: 50px 40px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            border: 1px solid rgba(255,255,255,0.03);
+            margin: 0 auto;
+            padding: 100px 20px;
+        }
+
+        /* 메인 대시보드 판넬 (글래스모피즘 효과 적용) */
+        .dashboard {
+            background: var(--panel-bg);
+            border-radius: 36px;
+            padding: 60px 45px;
+            box-shadow: 0 30px 70px var(--shadow-color);
+            border: 1px solid var(--panel-border);
             backdrop-filter: blur(20px);
         }
 
         header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
         }
 
         .live-indicator {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 6px 14px;
-            background: rgba(255,255,255,0.05);
+            padding: 6px 16px;
+            background: rgba(128,128,128,0.06);
             border-radius: 100px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin-bottom: 16px;
-            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+            border: 1px solid var(--panel-border);
         }
 
         .dot {
-            width: 8px;
-            height: 8px;
-            background-color: #ef4444;
+            width: 7px;
+            height: 7px;
+            background-color: #f43f5e;
             border-radius: 50%;
-            animation: pulse 1.5s infinite;
+            animation: pulse 1.8s infinite;
         }
 
         header h1 {
-            font-size: 2.6rem;
-            font-weight: 850;
-            background: linear-gradient(135deg, #fff, #64748b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
         }
 
-        /* 다이어그램 레이아웃 구역 */
+        header p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            font-weight: 500;
+        }
+
         .diagram-space {
             display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 40px;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 50px;
             align-items: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
 
-        /* 왼쪽: 무한 회전 다이어그램 메커니즘 */
         .visual-engine {
             position: relative;
-            height: 480px;
+            height: 440px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        /* 중앙 회전 코어 (기어) */
         .central-core {
-            width: 120px;
-            height: 120px;
-            background: radial-gradient(circle, #1e293b 0%, #020617 100%);
-            border: 3px dashed rgba(255,255,255,0.2);
+            width: 110px;
+            height: 110px;
+            background: var(--panel-bg);
+            border: 2px dashed var(--text-muted);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 10;
-            font-size: 1.8rem;
-            box-shadow: 0 0 30px rgba(255,255,255,0.05);
-            animation: reverseRotate 20s linear infinite;
+            font-size: 2rem;
+            animation: reverseRotate 25s linear infinite;
+            box-shadow: inset 0 0 20px var(--shadow-color);
         }
 
-        /* 궤도 라인 */
         .orbit {
             position: absolute;
-            width: 360px;
-            height: 360px;
-            border: 2px dashed rgba(255,255,255,0.05);
+            width: 340px;
+            height: 340px;
+            border: 1px dashed rgba(128,128,128,0.2);
             border-radius: 50%;
-            animation: rotate 35s linear infinite;
+            animation: rotate 40s linear infinite;
         }
 
-        /* 궤도 위를 도는 입자 에너지선 효과 */
-        .orbit::before {
-            content: '';
-            position: absolute;
-            top: -2px; left: 50%;
-            width: 6px; height: 6px;
-            background: #fff;
-            border-radius: 50%;
-            box-shadow: 0 0 15px #fff, 0 0 30px #fff;
-        }
-
-        /* 위성 시스템 노드들 (고정 배치 후 자체 애니메이션) */
         .system-node {
             position: absolute;
             width: 90px;
             height: 90px;
             border-radius: 50%;
-            background: #111827;
-            border: 2px solid rgba(255,255,255,0.1);
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             font-size: 1.6rem;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 25px var(--shadow-color);
             z-index: 5;
+            backdrop-filter: blur(5px);
         }
 
         .system-node span {
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-top: 4px;
-            color: #94a3b8;
+            font-size: 0.72rem;
+            font-weight: 800;
+            margin-top: 5px;
+            color: var(--text-muted);
         }
 
-        /* 5대 노드 원형 좌표 배치 및 숨쉬기 애니메이션 */
-        #n1 { top: 20px; left: 50%; transform: translateX(-50%); animation: float 4s ease-in-out infinite; }
-        #n2 { top: 150px; right: 20px; animation: float 4.5s ease-in-out infinite; }
-        #n3 { bottom: 40px; right: 70px; animation: float 5s ease-in-out infinite; }
-        #n4 { bottom: 40px; left: 70px; animation: float 4.8s ease-in-out infinite; }
-        #n5 { top: 150px; left: 20px; animation: float 4.2s ease-in-out infinite; }
+        #n1 { top: 10px; left: 50%; transform: translateX(-50%); animation: float 4s ease-in-out infinite; }
+        #n2 { top: 130px; right: 10px; animation: float 4.5s ease-in-out infinite; }
+        #n3 { bottom: 30px; right: 60px; animation: float 5s ease-in-out infinite; }
+        #n4 { bottom: 30px; left: 60px; animation: float 4.8s ease-in-out infinite; }
+        #n5 { top: 130px; left: 10px; animation: float 4.2s ease-in-out infinite; }
 
-        /* 오른쪽: 인터랙티브 논리 패널 */
         .logic-panel {
             display: flex;
             flex-direction: column;
@@ -179,200 +260,254 @@
         }
 
         .panel-card {
-            background: var(--panel-bg);
-            border: 1px solid rgba(255,255,255,0.03);
-            padding: 18px 24px;
-            border-radius: 16px;
-            transition: all 0.3s ease;
+            background: rgba(128,128,128,0.03);
+            border: 1px solid var(--panel-border);
+            padding: 20px 24px;
+            border-radius: 20px;
             position: relative;
         }
 
         .panel-card h3 {
             font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-weight: 800;
+            margin-bottom: 6px;
         }
 
         .panel-card p {
-            font-size: 0.88rem;
-            color: #94a3b8;
-            line-height: 1.5;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.55;
         }
 
-        /* 하이라이트 활성화 테마 (마우스 오버 시 전체 연동 작동) */
+        /* 마우스 오버 쌍방향 스위칭 네온 라이트 효과 */
         .panel-card.active, .panel-card:hover {
-            transform: translateX(8px);
-            background: rgba(255,255,255,0.02);
+            transform: scale(1.02) translateX(8px);
+            background: var(--panel-bg);
         }
 
-        /* 개별 테마 매칭 */
-        .t-knowledge.active, .t-knowledge:hover { border-color: var(--cls-knowledge); box-shadow: 0 0 20px rgba(168, 85, 247, 0.15); }
-        .t-work.active, .t-work:hover { border-color: var(--cls-work); box-shadow: 0 0 20px rgba(59, 130, 246, 0.15); }
-        .t-side.active, .t-side:hover { border-color: var(--cls-side); box-shadow: 0 0 20px rgba(6, 182, 212, 0.15); }
-        .t-invest.active, .t-invest:hover { border-color: var(--cls-invest); box-shadow: 0 0 20px rgba(245, 158, 11, 0.15); }
-        .t-estate.active, .t-estate:hover { border-color: var(--cls-estate); box-shadow: 0 0 20px rgba(16, 185, 129, 0.15); }
+        .t-knowledge.active, .t-knowledge:hover { border-color: var(--cls-knowledge); box-shadow: 0 10px 25px rgba(139, 92, 246, 0.15); }
+        .t-work.active, .t-work:hover { border-color: var(--cls-work); box-shadow: 0 10px 25px rgba(37, 99, 230, 0.15); }
+        .t-side.active, .t-side:hover { border-color: var(--cls-side); box-shadow: 0 10px 25px rgba(8, 145, 178, 0.15); }
+        .t-invest.active, .t-invest:hover { border-color: var(--cls-invest); box-shadow: 0 10px 25px rgba(217, 119, 6, 0.15); }
+        .t-estate.active, .t-estate:hover { border-color: var(--cls-estate); box-shadow: 0 10px 25px rgba(5, 150, 105, 0.15); }
 
-        /* 위성 노드 마우스 오버 가시화 */
         .system-node:hover, .system-node.active {
             transform: scale(1.15);
             box-shadow: 0 0 30px currentColor;
-            background: #000;
             color: #fff !important;
+            background: var(--text-main);
+            border-color: transparent;
         }
 
-        /* 무한 루프 안내 하단 티커 */
         .loop-ticker {
-            background: #020617;
+            background: var(--ticker-bg);
             padding: 16px;
-            border-radius: 12px;
+            border-radius: 16px;
             text-align: center;
             font-size: 0.9rem;
             font-weight: 600;
-            color: #94a3b8;
-            border: 1px solid rgba(255,255,255,0.02);
+            color: var(--text-muted);
             overflow: hidden;
             white-space: nowrap;
+            margin-top: 30px;
+            border: 1px solid var(--panel-border);
         }
         
         .ticker-wrap {
             display: inline-block;
-            animation: ticker 25s linear infinite;
+            animation: ticker 28s linear infinite;
         }
 
-        /* CTA */
-        .action-zone {
+        /* 2단계: 브랜드 스토리 구역 (글래스모피즘 판넬로 통일) */
+        .story-section {
+            margin-top: 80px;
+            background: var(--panel-bg);
+            border-radius: 36px;
+            padding: 70px 45px;
+            border: 1px solid var(--panel-border);
+            box-shadow: 0 30px 70px var(--shadow-color);
+            backdrop-filter: blur(20px);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .story-left h2 {
+            font-size: 2.4rem;
+            font-weight: 900;
+            line-height: 1.35;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .story-left h2 span {
+            background: linear-gradient(90deg, var(--cls-knowledge), var(--cls-estate));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .story-right {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            border-left: 2px solid var(--panel-border);
+            padding-left: 40px;
+        }
+
+        .story-block h4 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .story-block p {
+            font-size: 0.98rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        /* 최종 하단 액션 버튼 구역 */
+        .cta-center {
             text-align: center;
-            margin-top: 40px;
+            margin-top: 90px;
         }
 
         .btn-glow {
             display: inline-block;
-            background: #fff;
-            color: #05070f;
-            font-weight: 700;
-            padding: 18px 50px;
+            background: var(--btn-bg);
+            color: var(--btn-text);
+            font-weight: 800;
+            padding: 22px 70px;
             border-radius: 100px;
             text-decoration: none;
-            font-size: 1.05rem;
-            transition: all 0.3s;
-            box-shadow: 0 0 30px rgba(255,255,255,0.1);
+            font-size: 1.15rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 20px 40px var(--shadow-color);
         }
 
         .btn-glow:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 40px rgba(59, 130, 246, 0.6);
-            background: linear-gradient(90deg, var(--cls-knowledge), var(--cls-work), var(--cls-estate));
-            color: #fff;
+            transform: translateY(-4px);
+            box-shadow: 0 25px 50px rgba(124, 58, 237, 0.3);
         }
 
-        /* 키프레임 애니메이션 정의 모음 */
-        @keyframes pulse {
-            0% { transform: scale(0.95); opacity: 0.5; }
-            50% { transform: scale(1); opacity: 1; box-shadow: 0 0 12px #ef4444; }
-            100% { transform: scale(0.95); opacity: 0.5; }
-        }
+        /* 애니메이션 키프레임 정의 */
+        @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes reverseRotate { 0% { transform: rotate(360deg); } 100% { transform: rotate(0deg); } }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
+        @keyframes pulse { 0%, 100% { opacity: 0.5; transform: scale(0.95); } 50% { opacity: 1; transform: scale(1.05); } }
 
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes reverseRotate {
-            0% { transform: rotate(360deg); }
-            100% { transform: rotate(0deg); }
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px) inherit; }
-            50% { transform: translateY(-10px) inherit; }
-            100% { transform: translateY(0px) inherit; }
-        }
-
-        @keyframes ticker {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-50%, 0, 0); }
-        }
-
-        @media (max-width: 900px) {
-            .diagram-space { grid-template-columns: 1fr; }
-            .visual-engine { height: 400px; }
-            .orbit { width: 300px; height: 300px; }
+        @media (max-width: 950px) {
+            .diagram-space, .story-grid { grid-template-columns: 1fr; gap: 40px; }
+            .story-right { border-left: none; padding-left: 0; }
+            .dashboard, .story-section { padding: 40px 24px; }
         }
     </style>
 </head>
 <body>
 
-<div class="dashboard">
-    <header>
-        <div class="live-indicator"><div class="dot"></div>SYSTEM LIVE ACCELERATING</div>
-        <h1>THE WEALTH LOOP ENGINE</h1>
-        <p>인생의 기어들을 맞물려 멈추지 않는 성장을 만드세요. 마우스를 올려 유기적 체인을 확인하세요.</p>
-    </header>
+    <!-- 고정형 테마 체인저 -->
+    <div class="theme-toggle-wrap">
+        <button class="theme-btn" id="theme-toggle">
+            <span id="theme-icon">☀️</span> <span id="theme-text">화이트 모드</span>
+        </button>
+    </div>
 
-    <div class="diagram-space">
+    <div class="section-container">
         
-        <!-- 왼쪽: 실시간으로 계속 도는 기어 & 다이어그램 애니메이션 -->
-        <div class="visual-engine">
-            <div class="central-core">🔄</div>
-            <div class="orbit"></div>
-            
-            <!-- 위성 시스템 노드 (계속 위아래로 가볍게 움직임) -->
-            <div class="system-node" id="n1" data-target="p1" style="color: var(--cls-knowledge)">📚<span>지식줍줍</span></div>
-            <div class="system-node" id="n2" data-target="p2" style="color: var(--cls-work)">💻<span>워크북</span></div>
-            <div class="system-node" id="n3" data-target="p3" style="color: var(--cls-side)">🚀<span>부캐실험</span></div>
-            <div class="system-node" id="n4" data-target="p4" style="color: var(--cls-invest)">💰<span>돈버는지도</span></div>
-            <div class="system-node" id="n5" data-target="p5" style="color: var(--cls-estate)">🏢<span>내집마련</span></div>
+        <!-- 대시보드 판넬 (첫 진입 시 사라락 연출) -->
+        <div class="dashboard reveal">
+            <header>
+                <div class="live-indicator"><div class="dot"></div>SYSTEM ENGINE ACTIVE</div>
+                <h1>THE WEALTH LOOP ENGINE</h1>
+                <p>기억력에 의존하는 성장은 끝났습니다. 맞물려 돌아가는 5가지 기어에 인생을 맡기세요.</p>
+            </header>
+
+            <div class="diagram-space">
+                <div class="visual-engine">
+                    <div class="central-core">⚙️</div>
+                    <div class="orbit"></div>
+                    
+                    <div class="system-node" id="n1" data-target="p1" style="color: var(--cls-knowledge)">📚<span>지식줍줍</span></div>
+                    <div class="system-node" id="n2" data-target="p2" style="color: var(--cls-work)">💻<span>워크북</span></div>
+                    <div class="system-node" id="n3" data-target="p3" style="color: var(--cls-side)">🚀<span>부캐실험</span></div>
+                    <div class="system-node" id="n4" data-target="p4" style="color: var(--cls-invest)">💰<span>돈버는지도</span></div>
+                    <div class="system-node" id="n5" data-target="p5" style="color: var(--cls-estate)">🏢<span>내집마련</span></div>
+                </div>
+
+                <div class="logic-panel">
+                    <div class="panel-card t-knowledge" id="p1" data-node="n1">
+                        <h3>📚 지식 줍줍 (인풋의 시스템화)</h3>
+                        <p>흩어지는 아이디어와 독서 인사이트를 무손실 보존합니다. 본업과 부업을 강화하는 최상위 핵심 연료입니다.</p>
+                    </div>
+                    <div class="panel-card t-work" id="p2" data-node="n2">
+                        <h3>💻 일잘러의 워크북 (커리어 자산)</h3>
+                        <p>업무 성과와 핵심 지표를 기록하여 몸값을 극대화합니다. 가장 굳건한 메인 시드머니 창구입니다.</p>
+                    </div>
+                    <div class="panel-card t-side" id="p3" data-node="n3">
+                        <h3>🚀 부캐 실험실 (현금흐름 다각화)</h3>
+                        <p>퇴근 후 리스크 없는 환경에서 소액 부업을 인큐베이팅합니다. 회사를 떠나 자립할 수 있는 제2의 엔진입니다.</p>
+                    </div>
+                    <div class="panel-card t-invest" id="p4" data-node="n4">
+                        <h3>💰 돈 버는 지도 (자산 스케일업)</h3>
+                        <p>주식, 비트코인 등 다각화된 포트폴리오를 관리합니다. 확보된 현금흐름의 증식 속도를 최고조로 가속합니다.</p>
+                    </div>
+                    <div class="panel-card t-estate" id="p5" data-node="n5">
+                        <h3>🏢 내 집 마련 연구소 (부의 최종 고정)</h3>
+                        <p>청약 및 매매 분석을 통해 대한민국 시장에 맞는 실물 자산을 장악합니다. 자산의 안정이 가져다준 여유 시간은 다시 '지식 줍줍'의 연료로 리턴됩니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="loop-ticker">
+                <div class="ticker-wrap">
+                    지식은 생산성을 낳고 → 생산성은 현금흐름을 만들며 → 현금흐름은 자산을 증식하고 → 안정된 자산은 다시 고차원적 지식 탐구 시간을 제공합니다. 이것이 완벽한 무한 동력 루프입니다. | 지식은 생산성을 낳고 → 생산성은 현금흐름을 만들며 → 현금흐름은 자산을 증식하고 → 안정된 자산은 다시 고차원적 지식 탐구 시간을 제공합니다. 이것이 완벽한 무한 동력 루프입니다.
+                </div>
+            </div>
         </div>
 
-        <!-- 오른쪽: 다채롭고 논리적인 텍스트 카드 매칭 -->
-        <div class="logic-panel">
-            <div class="panel-card t-knowledge" id="p1" data-node="n1">
-                <h3>📚 지식 줍줍 (연료)</h3>
-                <p>흐려지는 인사이트를 영구 시스템에 박제합니다. 여기서 만들어진 연료가 본업의 무기와 부업의 아이템으로 자동 공급됩니다.</p>
+        <!-- 2단계: 브랜드 스토리 구역 (스크롤을 내리면 사라락 등장) -->
+        <div class="story-section reveal">
+            <div class="story-grid">
+                <div class="story-left">
+                    <h2>왜 직장인의 삶은<br>노력해도 제자리일까요?<br><span>정답은 '연결'에 있습니다.</span></h2>
+                </div>
+                <div class="story-right">
+                    <div class="story-block">
+                        <h4>치명적인 단절의 오류</h4>
+                        <p>열심히 책을 읽지만 회사 일에 적용하지 못하고, 회사에서 돈을 벌지만 재테크 데이터와 단절되어 있고, 부업을 꿈꾸지만 아카이빙된 지식이 없어 매번 제자리걸음을 걷습니다. 각각의 기어가 따로 놀기 때문입니다.</p>
+                    </div>
+                    <div class="story-block">
+                        <h4>단 하나의 통합 운영체제 (Life OS)</h4>
+                        <p>성공한 고효율 자산가들은 의지력을 믿지 않고 완벽하게 통제된 '기록 시스템'을 믿었습니다. 이 노션 템플릿 패키지는 단순한 메모장이 아닙니다. 당신의 지식, 커리어, 부업, 투자를 유기적 톱니바퀴로 결합해 스스로 굴러가게 만드는 무한 동력 기어입니다.</p>
+                    </div>
+                    <div class="story-block">
+                        <h4>완벽한 자립 시나리오</h4>
+                        <p>'지식 줍줍'으로 무장한 당신이 '워크북'으로 몸값을 올리고, '부캐 실험실'로 다각화된 현금을 '돈 버는 지도'에 공급한 뒤, 결국 '내 집 마련 연구소'에서 부를 영구 고정하는 선순환 구조. 이제 당신의 인생을 경영할 차례입니다.</p>
+                    </div>
+                </div>
             </div>
-            <div class="panel-card t-work" id="p2" data-node="n2">
-                <h3>💻 일잘러의 워크북 (현금흐름 A)</h3>
-                <p>본업 성과를 수치화하여 연봉과 몸값을 극대화합니다. 가장 확실하고 안전한 메인 시드머니 공급 장치입니다.</p>
-            </div>
-            <div class="panel-card t-side" id="p3" data-node="n3">
-                <h3>🚀 부캐 실험실 (현금흐름 B)</h3>
-                <p>퇴근 후 리스크 제로 환경에서 부수입을 린(Lean)하게 실험합니다. 본업의 한계를 넘는 두 번째 현금 엔진입니다.</p>
-            </div>
-            <div class="panel-card t-invest" id="p4" data-node="n4">
-                <h3>💰 돈 버는 지도 (자산 가속)</h3>
-                <p>주식, 비트코인 등 포트폴리오를 대시보드로 완벽 통제합니다. 두 개의 현금 흐름이 모여 자산 스케일을 가속화합니다.</p>
-            </div>
-            <div class="panel-card t-estate" id="p5" data-node="n5">
-                <h3>🏢 내 집 마련 연구소 (자산 고정)</h3>
-                <p>가장 안전한 대한민국 실물 자산으로 자산의 방어벽을 칩니다. 주거 안정이 주는 여유는 다시 최고의 인풋(지식 줍줍)으로 회귀합니다.</p>
-            </div>
+        </div>
+
+        <!-- 최종 CTA (마찬가지로 스크롤 시 사라락 등장) -->
+        <div class="cta-center reveal">
+            <a href="#" class="btn-glow" onclick="alert('스마트스토어로 이동합니다!'); return false;">
+                무한 선순환 기어 장착하기 →
+            </a>
         </div>
 
     </div>
-
-    <!-- 끊임없이 흘러가는 무한 루프 텍스트 배너 -->
-    <div class="loop-ticker">
-        <div class="ticker-wrap">
-            지식은 생산성을 낳고 → 생산성은 현금흐름을 만들며 → 현금흐름은 자산을 증식하고 → 안정된 자산은 다시 고차원적 지식 탐구 시간을 제공합니다. 이것이 완벽한 무한 동력 루프입니다.  |  지식은 생산성을 낳고 → 생산성은 현금흐름을 만들며 → 현금흐름은 자산을 증식하고 → 안정된 자산은 다시 고차원적 지식 탐구 시간을 제공합니다. 이것이 완벽한 무한 동력 루프입니다.
-        </div>
-    </div>
-
-    <div class="action-zone">
-        <a href="#" class="btn-glow" onclick="alert('스마트스토어 구매 페이지로 연결됩니다.'); return false;">
-            무한 동력 엔진 템플릿 장착하기 →
-        </a>
-    </div>
-</div>
 
 <script>
-    // 노드와 카드 간의 마우스오버 쌍방향 인터랙션 스크립트
+    /* 1. 마우스오버 양방향 하이라이트 */
     const nodes = document.querySelectorAll('.system-node');
     const cards = document.querySelectorAll('.panel-card');
 
-    // 1. 왼쪽 다이어그램 노드에 마우스 올렸을 때 오른쪽 카드 하이라이트
     nodes.forEach(node => {
         node.addEventListener('mouseenter', () => {
             const targetId = node.getAttribute('data-target');
@@ -383,7 +518,6 @@
         node.addEventListener('mouseleave', clearAll);
     });
 
-    // 2. 오른쪽 카드에 마우스 올렸을 때 왼쪽 다이어그램 노드 하이라이트
     cards.forEach(card => {
         card.addEventListener('mouseenter', () => {
             const nodeId = card.getAttribute('data-node');
@@ -398,6 +532,45 @@
         nodes.forEach(n => n.classList.remove('active'));
         cards.forEach(c => c.classList.remove('active'));
     }
+
+    /* 2. 트렌디한 스크롤 감지 인터랙션 (Intersection Observer API) */
+    const revealElements = document.querySelectorAll('.reveal');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, {
+        threshold: 0.12 // 타겟이 화면에 12% 이상 보이기 시작할 때 부드럽게 노출
+    });
+
+    revealElements.forEach(el => observer.observe(el));
+
+    /* 3. 라이트/다크 모드 감성 스위칭 스크립트 */
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.getElementById('theme-text');
+    const htmlEl = document.documentElement;
+
+    toggleBtn.addEventListener('click', () => {
+        const currentTheme = htmlEl.getAttribute('data-theme');
+        if (currentTheme === 'light') {
+            htmlEl.setAttribute('data-theme', 'dark');
+            themeIcon.innerText = '🌙';
+            themeText.innerText = '다크 모드';
+        } else {
+            htmlEl.setAttribute('data-theme', 'light');
+            themeIcon.innerText = '☀️';
+            themeText.innerText = '화이트 모드';
+        }
+    });
+
+    // 쾌적한 UX를 위해 첫 번째 판넬은 딜레이 후 자동 등장
+    setTimeout(() => {
+        if(revealElements[0]) revealElements[0].classList.add('active');
+    }, 150);
 </script>
 
 </body>
