@@ -3,59 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Life OS : Infinite Loop Dashboard</title>
+    <title>Clover in : 무한 선순환 자립 시스템</title>
     <style>
-        /* 테마별 감성 메쉬 그라데이션 및 그리드 패턴 설정 */
         :root[data-theme="light"] {
-            /* 화이트 모드: 감성 충만한 차분한 아침 안개 느낌 */
+            /* 화이트 모드: 싱그럽고 차분한 클로버 정원 감성 메쉬 그라데이션 */
             --bg-image: 
-                radial-gradient(at 0% 0%, rgba(224, 231, 255, 0.6) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(243, 232, 255, 0.6) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(207, 250, 254, 0.4) 0px, transparent 50%),
+                radial-gradient(at 0% 0%, rgba(209, 250, 229, 0.6) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(243, 232, 255, 0.5) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(167, 243, 208, 0.4) 0px, transparent 50%),
                 radial-gradient(at 0% 100%, rgba(254, 243, 199, 0.4) 0px, transparent 50%);
             --bg-color: #f8fafc;
-            --grid-color: rgba(15, 23, 42, 0.03);
+            --grid-color: rgba(16, 185, 129, 0.03);
             
             --panel-bg: rgba(255, 255, 255, 0.75);
-            --panel-border: rgba(15, 23, 42, 0.08);
+            --panel-border: rgba(16, 185, 129, 0.08);
             --text-main: #0f172a;
             --text-muted: #627185;
-            --ticker-bg: rgba(15, 23, 42, 0.05);
-            --shadow-color: rgba(15, 23, 42, 0.04);
-            --btn-bg: #0f172a;
+            --ticker-bg: rgba(16, 185, 129, 0.05);
+            --shadow-color: rgba(16, 185, 129, 0.04);
+            --btn-bg: #047857; /* 클로버 메인 그린 */
             --btn-text: #ffffff;
+            --node-shadow: rgba(16, 185, 129, 0.08);
+            --line-color: rgba(16, 185, 129, 0.12);
             
-            --cls-knowledge: #7c3aed;
-            --cls-work: #1d4ed8;
-            --cls-side: #0e7490;
-            --cls-invest: #b45309;
-            --cls-estate: #047857;
+            --cls-knowledge: #059669; /* 에메랄드 */
+            --cls-work: #10b981;      /* 네추럴 그린 */
+            --cls-side: #34d399;      /* 민트 그린 */
+            --cls-invest: #047857;    /* 딥 그린 */
+            --cls-estate: #064e3b;    /* 포레스트 그린 */
         }
 
         :root[data-theme="dark"] {
-            /* 다크 모드: 오로라가 치는 깊은 밤하늘의 우주 느낌 */
+            /* 다크 모드: 심야의 신비로운 숲속 네온 클로버 감성 */
             --bg-image: 
-                radial-gradient(at 0% 0%, rgba(124, 58, 237, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.12) 0px, transparent 50%),
-                radial-gradient(at 50% 50%, rgba(6, 182, 212, 0.08) 0px, transparent 40%),
-                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
-            --bg-color: #030712;
-            --grid-color: rgba(255, 255, 255, 0.015);
+                radial-gradient(at 0% 0%, rgba(6, 78, 59, 0.2) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.1) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(52, 211, 153, 0.08) 0px, transparent 40%),
+                radial-gradient(at 100% 100%, rgba(4, 120, 87, 0.15) 0px, transparent 50%);
+            --bg-color: #020504;
+            --grid-color: rgba(16, 185, 129, 0.015);
             
-            --panel-bg: rgba(13, 18, 34, 0.45);
-            --panel-border: rgba(255, 255, 255, 0.04);
+            --panel-bg: rgba(11, 24, 19, 0.45);
+            --panel-border: rgba(16, 185, 129, 0.05);
             --text-main: #f8fafc;
             --text-muted: #475569;
             --ticker-bg: rgba(0, 0, 0, 0.4);
             --shadow-color: rgba(0, 0, 0, 0.6);
             --btn-bg: #ffffff;
-            --btn-text: #030712;
+            --btn-text: #020504;
+            --node-shadow: rgba(0, 0, 0, 0.4);
+            --line-color: rgba(16, 185, 129, 0.1);
             
-            --cls-knowledge: #a855f7;
-            --cls-work: #3b82f6;
-            --cls-side: #06b6d4;
-            --cls-invest: #f59e0b;
-            --cls-estate: #10b981;
+            --cls-knowledge: #34d399;
+            --cls-work: #10b981;
+            --cls-side: #6ee7b7;
+            --cls-invest: #059669;
+            --cls-estate: #a7f3d0;
         }
 
         * {
@@ -71,11 +74,10 @@
             background-image: var(--bg-image);
             color: var(--text-main);
             overflow-x: hidden;
-            padding-bottom: 100px;
+            padding-bottom: 120px;
             position: relative;
         }
 
-        /* 감성적인 엔지니어링 그리드 배경 레이어 */
         body::before {
             content: '';
             position: absolute;
@@ -83,12 +85,12 @@
             background-image: 
                 linear-gradient(var(--grid-color) 1px, transparent 1px),
                 linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background-size: 50px 50px;
             z-index: -1;
             pointer-events: none;
         }
 
-        /* 테마 토글 스위치 */
+        /* 고정 테마 스위치 버튼 */
         .theme-toggle-wrap {
             position: fixed;
             top: 25px;
@@ -112,10 +114,10 @@
             backdrop-filter: blur(12px);
         }
 
-        /* 스크롤 애니메이션 클래스 (사라락 효과) */
+        /* 스크롤 애니메이션 클래스 */
         .reveal {
             opacity: 0;
-            transform: translateY(50px);
+            transform: translateY(40px);
             transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -124,27 +126,172 @@
             transform: translateY(0);
         }
 
-        /* 섹션 컨테이너 */
+        .delay-1 { transition-delay: 0.15s; }
+        .delay-2 { transition-delay: 0.3s; }
+        .delay-3 { transition-delay: 0.45s; }
+
         .section-container {
             max-width: 1140px;
             width: 100%;
             margin: 0 auto;
-            padding: 100px 20px;
+            padding: 80px 20px;
         }
 
-        /* 메인 대시보드 판넬 (글래스모피즘 효과 적용) */
+        /* 🍀 오늘의 클로버 운세 카드 섹션 */
+        .fortune-card {
+            background: rgba(16, 185, 129, 0.03);
+            border: 1px solid var(--panel-border);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            text-align: center;
+            box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.02);
+        }
+
+        /* 🔍 검색 가이드 타이틀 */
+        .fortune-guide-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--btn-bg);
+            letter-spacing: -0.3px;
+        }
+
+        .fortune-input-group {
+            display: flex;
+            gap: 10px;
+            max-width: 420px;
+            width: 100%;
+        }
+
+        .fortune-input {
+            flex: 1;
+            padding: 12px 18px;
+            border-radius: 14px;
+            border: 1px solid var(--panel-border);
+            background: var(--panel-bg);
+            color: var(--text-main);
+            font-weight: 600;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        .fortune-btn {
+            padding: 12px 24px;
+            border-radius: 14px;
+            border: none;
+            background: var(--btn-bg);
+            color: var(--btn-text);
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: transform 0.2s;
+        }
+        .fortune-btn:active { transform: scale(0.96); }
+
+        /* ⚡ 좌측 점수, 우측 텍스트 2컬럼 결과창 */
+        .fortune-result {
+            display: none;
+            width: 100%;
+            background: var(--panel-bg);
+            padding: 24px;
+            border-radius: 20px;
+            border: 1px solid var(--panel-border);
+            box-shadow: 0 10px 30px var(--shadow-color);
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .fortune-flex-layout {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 24px;
+            align-items: center;
+        }
+
+        /* 왼쪽 큰 점수 구역 */
+        .score-left-zone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid var(--panel-border);
+            padding-right: 10px;
+        }
+
+        .score-big-num {
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: var(--btn-bg);
+            line-height: 1;
+        }
+
+        .score-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-top: 6px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* 오른쪽 가이드 내용 구역 */
+        .content-right-zone {
+            text-align: left;
+        }
+
+        .content-right-zone h4 {
+            font-size: 1.15rem;
+            color: var(--text-main);
+            margin-bottom: 6px;
+            font-weight: 800;
+        }
+
+        .content-right-zone p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* 하단 가로형 게이지 바 */
+        .score-bar-wrapper {
+            grid-column: span 2;
+            margin-top: 10px;
+        }
+
+        .bar-bg {
+            width: 100%;
+            height: 10px;
+            background: rgba(16, 185, 129, 0.08);
+            border-radius: 100px;
+            overflow: hidden;
+            border: 1px solid var(--panel-border);
+        }
+
+        .bar-fill {
+            height: 100%;
+            width: 0%; 
+            background: linear-gradient(90deg, var(--cls-side), var(--cls-work));
+            border-radius: 100px;
+            transition: width 1.2s cubic-bezier(0.1, 1, 0.1, 1);
+        }
+
+        /* [1] 메인 대시보드 판넬 */
         .dashboard {
             background: var(--panel-bg);
-            border-radius: 36px;
+            border-radius: 40px;
             padding: 60px 45px;
-            box-shadow: 0 30px 70px var(--shadow-color);
+            box-shadow: 0 30px 80px var(--shadow-color);
             border: 1px solid var(--panel-border);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(30px);
+            margin-bottom: 60px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 40px;
         }
 
         .live-indicator {
@@ -152,81 +299,85 @@
             align-items: center;
             gap: 8px;
             padding: 6px 16px;
-            background: rgba(128,128,128,0.06);
+            background: rgba(16, 185, 129, 0.05);
             border-radius: 100px;
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             font-weight: 700;
             letter-spacing: 1.5px;
             margin-bottom: 20px;
             border: 1px solid var(--panel-border);
+            color: var(--cls-work);
         }
 
         .dot {
             width: 7px;
             height: 7px;
-            background-color: #f43f5e;
+            background-color: var(--cls-side);
             border-radius: 50%;
             animation: pulse 1.8s infinite;
         }
 
         header h1 {
-            font-size: 2.8rem;
+            font-size: 3rem;
             font-weight: 900;
             margin-bottom: 16px;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.8px;
         }
-
-        header p {
-            color: var(--text-muted);
-            font-size: 1.15rem;
-            font-weight: 500;
-        }
+        
+        header h1 span { color: var(--btn-bg); }
+        header p { color: var(--text-muted); font-size: 1.15rem; }
 
         .diagram-space {
             display: grid;
-            grid-template-columns: 1.1fr 1fr;
+            grid-template-columns: 1.15fr 1fr;
             gap: 50px;
             align-items: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         .visual-engine {
             position: relative;
-            height: 440px;
+            height: 480px;
             display: flex;
             justify-content: center;
             align-items: center;
+            background: rgba(16, 185, 129, 0.01);
+            border-radius: 28px;
+            border: 1px dashed var(--panel-border);
+            overflow: hidden;
         }
 
+        .pipeline-svg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .pipeline-track { fill: none; stroke: var(--line-color); stroke-width: 1.5; stroke-dasharray: 4 4; }
+        .pipeline-pulse { fill: none; stroke: url(#cloverGradient); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 60 140; animation: laserFlow 5s linear infinite; }
+
         .central-core {
-            width: 110px;
-            height: 110px;
+            width: 100px;
+            height: 100px;
             background: var(--panel-bg);
-            border: 2px dashed var(--text-muted);
+            border: 1px solid var(--panel-border);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 10;
-            font-size: 2rem;
-            animation: reverseRotate 25s linear infinite;
-            box-shadow: inset 0 0 20px var(--shadow-color);
+            box-shadow: 0 10px 30px var(--shadow-color);
         }
 
-        .orbit {
-            position: absolute;
-            width: 340px;
-            height: 340px;
-            border: 1px dashed rgba(128,128,128,0.2);
-            border-radius: 50%;
-            animation: rotate 40s linear infinite;
-        }
+        .clover-svg { width: 55px; height: 55px; fill: var(--btn-bg); animation: cloverRotate 12s linear infinite; }
+        .orbit-ring { position: absolute; width: 330px; height: 330px; border: 1px solid var(--line-color); border-radius: 50%; z-index: 1; }
 
         .system-node {
             position: absolute;
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
+            width: 94px;
+            height: 94px;
+            border-radius: 24px;
             background: var(--panel-bg);
             border: 1px solid var(--panel-border);
             display: flex;
@@ -235,183 +386,99 @@
             align-items: center;
             font-size: 1.6rem;
             cursor: pointer;
-            box-shadow: 0 10px 25px var(--shadow-color);
+            box-shadow: 0 12px 30px var(--node-shadow);
             z-index: 5;
-            backdrop-filter: blur(5px);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .system-node span {
-            font-size: 0.72rem;
-            font-weight: 800;
-            margin-top: 5px;
-            color: var(--text-muted);
-        }
+        .system-node span { font-size: 0.72rem; font-weight: 800; margin-top: 6px; color: var(--text-muted); }
 
-        #n1 { top: 10px; left: 50%; transform: translateX(-50%); animation: float 4s ease-in-out infinite; }
-        #n2 { top: 130px; right: 10px; animation: float 4.5s ease-in-out infinite; }
-        #n3 { bottom: 30px; right: 60px; animation: float 5s ease-in-out infinite; }
-        #n4 { bottom: 30px; left: 60px; animation: float 4.8s ease-in-out infinite; }
-        #n5 { top: 130px; left: 10px; animation: float 4.2s ease-in-out infinite; }
+        #n1 { top: 25px; left: 50%; transform: translateX(-50%); animation: techFloat 4s ease-in-out infinite; }
+        #n2 { top: 145px; right: 25px; animation: techFloat 4.5s ease-in-out infinite 0.5s; }
+        #n3 { bottom: 45px; right: 75px; animation: techFloat 5s ease-in-out infinite 1s; }
+        #n4 { bottom: 45px; left: 75px; animation: techFloat 4.8s ease-in-out infinite 1.5s; }
+        #n5 { top: 145px; left: 25px; animation: techFloat 4.2s ease-in-out infinite 2s; }
 
-        .logic-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+        .logic-panel { display: flex; flex-direction: column; gap: 14px; }
 
         .panel-card {
-            background: rgba(128,128,128,0.03);
+            background: rgba(16, 185, 129, 0.01);
             border: 1px solid var(--panel-border);
-            padding: 20px 24px;
+            padding: 18px 22px;
             border-radius: 20px;
-            position: relative;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .panel-card h3 {
-            font-size: 1.1rem;
-            font-weight: 800;
-            margin-bottom: 6px;
-        }
+        .panel-card h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 4px; }
+        .panel-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; }
 
-        .panel-card p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            line-height: 1.55;
-        }
+        .panel-card.active, .panel-card:hover { transform: scale(1.01) translateX(8px); background: var(--panel-bg); }
+        .t-knowledge.active, .t-knowledge:hover { border-color: var(--cls-knowledge); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15); }
+        .t-work.active, .t-work:hover { border-color: var(--cls-work); box-shadow: 0 10px 30px rgba(52, 211, 153, 0.15); }
+        .t-side.active, .t-side:hover { border-color: var(--cls-side); box-shadow: 0 10px 30px rgba(110, 231, 183, 0.15); }
+        .t-invest.active, .t-invest:hover { border-color: var(--cls-invest); box-shadow: 0 10px 30px rgba(4, 120, 87, 0.15); }
+        .t-estate.active, .t-estate:hover { border-color: var(--cls-estate); box-shadow: 0 10px 30px rgba(6, 78, 59, 0.15); }
 
-        /* 마우스 오버 쌍방향 스위칭 네온 라이트 효과 */
-        .panel-card.active, .panel-card:hover {
-            transform: scale(1.02) translateX(8px);
-            background: var(--panel-bg);
-        }
+        .system-node:hover, .system-node.active { transform: translateY(-5px) scale(1.12); box-shadow: 0 15px 40px currentColor; color: #fff !important; background: var(--text-main); border-color: transparent; }
 
-        .t-knowledge.active, .t-knowledge:hover { border-color: var(--cls-knowledge); box-shadow: 0 10px 25px rgba(139, 92, 246, 0.15); }
-        .t-work.active, .t-work:hover { border-color: var(--cls-work); box-shadow: 0 10px 25px rgba(37, 99, 230, 0.15); }
-        .t-side.active, .t-side:hover { border-color: var(--cls-side); box-shadow: 0 10px 25px rgba(8, 145, 178, 0.15); }
-        .t-invest.active, .t-invest:hover { border-color: var(--cls-invest); box-shadow: 0 10px 25px rgba(217, 119, 6, 0.15); }
-        .t-estate.active, .t-estate:hover { border-color: var(--cls-estate); box-shadow: 0 10px 25px rgba(5, 150, 105, 0.15); }
+        .loop-ticker { background: var(--ticker-bg); padding: 16px; border-radius: 16px; text-align: center; font-size: 0.9rem; font-weight: 600; color: var(--text-muted); overflow: hidden; white-space: nowrap; margin-top: 30px; border: 1px solid var(--panel-border); }
+        .ticker-wrap { display: inline-block; animation: ticker 28s linear infinite; }
 
-        .system-node:hover, .system-node.active {
-            transform: scale(1.15);
-            box-shadow: 0 0 30px currentColor;
-            color: #fff !important;
-            background: var(--text-main);
-            border-color: transparent;
-        }
+        /* [2] 브랜드 스토리 구역 */
+        .story-section { background: var(--panel-bg); border-radius: 40px; padding: 70px 45px; border: 1px solid var(--panel-border); box-shadow: 0 30px 80px var(--shadow-color); backdrop-filter: blur(30px); margin-bottom: 60px; }
+        .story-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 50px; align-items: center; }
+        .story-left h2 { font-size: 2.4rem; font-weight: 900; line-height: 1.4; letter-spacing: -0.5px; }
+        .story-left h2 span { background: linear-gradient(90deg, var(--cls-knowledge), var(--cls-side)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .story-right { display: flex; flex-direction: column; gap: 32px; border-left: 2px solid var(--panel-border); padding-left: 40px; }
+        .story-block h4 { font-size: 1.2rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .story-block h4::before { content: '🍀'; font-size: 1rem; }
+        .story-block p { font-size: 0.98rem; color: var(--text-muted); line-height: 1.7; }
 
-        .loop-ticker {
-            background: var(--ticker-bg);
-            padding: 16px;
-            border-radius: 16px;
-            text-align: center;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            overflow: hidden;
-            white-space: nowrap;
-            margin-top: 30px;
-            border: 1px solid var(--panel-border);
-        }
-        
-        .ticker-wrap {
-            display: inline-block;
-            animation: ticker 28s linear infinite;
-        }
+        /* [3] 핵심 스펙 미리보기 */
+        .feature-section { background: var(--panel-bg); border-radius: 40px; padding: 70px 45px; border: 1px solid var(--panel-border); box-shadow: 0 30px 80px var(--shadow-color); backdrop-filter: blur(30px); margin-bottom: 60px; }
+        .section-title { text-align: center; font-size: 2.1rem; font-weight: 850; margin-bottom: 45px; letter-spacing: -0.5px; }
+        .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .feature-card { background: rgba(128,128,128,0.02); border: 1px solid var(--panel-border); padding: 32px; border-radius: 24px; }
+        .feature-card .f-icon { font-size: 2rem; margin-bottom: 16px; }
+        .feature-card h5 { font-size: 1.2rem; font-weight: 800; margin-bottom: 10px; }
+        .feature-card p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; }
 
-        /* 2단계: 브랜드 스토리 구역 (글래스모피즘 판넬로 통일) */
-        .story-section {
-            margin-top: 80px;
-            background: var(--panel-bg);
-            border-radius: 36px;
-            padding: 70px 45px;
-            border: 1px solid var(--panel-border);
-            box-shadow: 0 30px 70px var(--shadow-color);
-            backdrop-filter: blur(20px);
-        }
+        /* [4] 워크플로우 3단계 */
+        .flow-section { background: var(--panel-bg); border-radius: 40px; padding: 70px 45px; border: 1px solid var(--panel-border); box-shadow: 0 30px 80px var(--shadow-color); backdrop-filter: blur(30px); text-align: center; }
+        .flow-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 40px; }
+        .flow-step { position: relative; padding: 20px; }
+        .flow-step .step-number { font-size: 3.5rem; font-weight: 900; color: var(--cls-side); opacity: 0.3; margin-bottom: -10px; }
+        .flow-step h6 { font-size: 1.2rem; font-weight: 800; margin-bottom: 10px; }
+        .flow-step p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.5; }
 
-        .story-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 50px;
-            align-items: center;
-        }
+        /* 하단 큰 CTA */
+        .cta-center { text-align: center; margin-top: 90px; }
+        .btn-glow { display: inline-block; background: var(--btn-bg); color: var(--btn-text); font-weight: 800; padding: 22px 75px; border-radius: 100px; text-decoration: none; font-size: 1.15rem; box-shadow: 0 20px 40px var(--shadow-color); }
+        .btn-glow:hover { transform: translateY(-4px); box-shadow: 0 25px 50px rgba(16, 185, 129, 0.3); }
 
-        .story-left h2 {
-            font-size: 2.4rem;
-            font-weight: 900;
-            line-height: 1.35;
-            margin-bottom: 20px;
-            letter-spacing: -0.5px;
-        }
-
-        .story-left h2 span {
-            background: linear-gradient(90deg, var(--cls-knowledge), var(--cls-estate));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .story-right {
-            display: flex;
-            flex-direction: column;
-            gap: 32px;
-            border-left: 2px solid var(--panel-border);
-            padding-left: 40px;
-        }
-
-        .story-block h4 {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--text-main);
-            margin-bottom: 8px;
-        }
-
-        .story-block p {
-            font-size: 0.98rem;
-            color: var(--text-muted);
-            line-height: 1.65;
-        }
-
-        /* 최종 하단 액션 버튼 구역 */
-        .cta-center {
-            text-align: center;
-            margin-top: 90px;
-        }
-
-        .btn-glow {
-            display: inline-block;
-            background: var(--btn-bg);
-            color: var(--btn-text);
-            font-weight: 800;
-            padding: 22px 70px;
-            border-radius: 100px;
-            text-decoration: none;
-            font-size: 1.15rem;
-            letter-spacing: 0.5px;
-            box-shadow: 0 20px 40px var(--shadow-color);
-        }
-
-        .btn-glow:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 25px 50px rgba(124, 58, 237, 0.3);
-        }
-
-        /* 애니메이션 키프레임 정의 */
-        @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes reverseRotate { 0% { transform: rotate(360deg); } 100% { transform: rotate(0deg); } }
-        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        /* 애니메이션 타임 정의 */
+        @keyframes laserFlow { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
+        @keyframes techFloat { 0%, 100% { transform: translate(calc(-50% * var(--is-x, 0)), 0px); } 50% { transform: translate(calc(-50% * var(--is-x, 0)), -8px); } }
+        #n1 { --is-x: 1; }
+        @keyframes cloverRotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
         @keyframes pulse { 0%, 100% { opacity: 0.5; transform: scale(0.95); } 50% { opacity: 1; transform: scale(1.05); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 950px) {
-            .diagram-space, .story-grid { grid-template-columns: 1fr; gap: 40px; }
+            .diagram-space, .story-grid, .feature-grid, .flow-grid { grid-template-columns: 1fr; gap: 40px; }
             .story-right { border-left: none; padding-left: 0; }
-            .dashboard, .story-section { padding: 40px 24px; }
+            .fortune-flex-layout { grid-template-columns: 1fr; gap: 16px; }
+            .score-left-zone { border-right: none; border-bottom: 1px solid var(--panel-border); padding-right: 0; padding-bottom: 16px; }
+            .score-bar-wrapper { grid-column: span 1; }
+            .dashboard, .story-section, .feature-section, .flow-section { padding: 40px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 고정형 테마 체인저 -->
+    <!-- 고정 우측 상단 라이트/다크 테마 토글 버튼 -->
     <div class="theme-toggle-wrap">
         <button class="theme-btn" id="theme-toggle">
             <span id="theme-icon">☀️</span> <span id="theme-text">화이트 모드</span>
@@ -420,18 +487,76 @@
 
     <div class="section-container">
         
-        <!-- 대시보드 판넬 (첫 진입 시 사라락 연출) -->
+        <!-- [1] Clover in 메인 기술 대시보드 판넬 구역 -->
         <div class="dashboard reveal">
             <header>
-                <div class="live-indicator"><div class="dot"></div>SYSTEM ENGINE ACTIVE</div>
-                <h1>THE WEALTH LOOP ENGINE</h1>
-                <p>기억력에 의존하는 성장은 끝났습니다. 맞물려 돌아가는 5가지 기어에 인생을 맡기세요.</p>
+                <div class="live-indicator"><div class="dot"></div>CLOVER NETWORK ACTIVE</div>
+                <h1>THE WEALTH LOOP <span>ENGINE</span></h1>
+                <p>행운은 우연이 아닌 정교한 시스템의 산물입니다. 내 삶 안(in)에 숨어있는 네 잎의 성장 엔진을 가동하세요.</p>
             </header>
 
+            <!-- 🍀 [개인화 기믹] 오늘의 클로버 지표 및 운세 진단 카드 -->
+            <div class="fortune-card">
+                <!-- 🆕 검색 전 유저를 유혹하는 마케팅 텍스트 가이드 -->
+                <div class="fortune-guide-title" id="fortune-guide-text">🔍 @@님의 오늘의 행운지수는?</div>
+                
+                <div class="fortune-input-group">
+                    <input type="text" id="visitor-name" class="fortune-input" placeholder="이름을 입력해 주세요">
+                    <button class="fortune-btn" onclick="generateDailyFortune()">시스템 진단</button>
+                </div>
+                
+                <!-- ⚡ 2컬럼 레이아웃 결과창 (좌: 큰 점수 / 우: 내용 / 하: 게이지바) -->
+                <div class="fortune-result" id="fortune-output">
+                    <div class="fortune-flex-layout">
+                        
+                        <!-- 왼쪽 큰 점수 영역 -->
+                        <div class="score-left-zone">
+                            <div class="score-big-num" id="fortune-score-num">00</div>
+                            <div class="score-label" id="visitor-label">CLOVER SCORE</div>
+                        </div>
+                        
+                        <!-- 오른쪽 텍스트 피드백 영역 -->
+                        <div class="content-right-zone">
+                            <h4 id="fortune-title">🍀 오늘의 최적화 루틴</h4>
+                            <p id="fortune-text">운세 내용이 출력되는 공간입니다.</p>
+                        </div>
+
+                        <!-- 하단 전체 가로형 게이지 바 -->
+                        <div class="score-bar-wrapper">
+                            <div class="bar-bg">
+                                <div class="bar-fill" id="score-bar"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- 하이테크 순환 다이어그램 & 로직 설명 패널 -->
             <div class="diagram-space">
                 <div class="visual-engine">
-                    <div class="central-core">⚙️</div>
-                    <div class="orbit"></div>
+                    <svg class="pipeline-svg">
+                        <defs>
+                            <linearGradient id="cloverGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="var(--cls-knowledge)" />
+                                <stop offset="50%" stop-color="var(--cls-work)" />
+                                <stop offset="100%" stop-color="var(--cls-side)" />
+                            </linearGradient>
+                        </defs>
+                        <polygon points="265,72  440,192  375,392  155,392  90,192" class="pipeline-track" />
+                        <polygon points="265,72  440,192  375,392  155,392  90,192" class="pipeline-pulse" />
+                    </svg>
+
+                    <div class="central-core">
+                        <svg class="clover-svg" viewBox="0 0 24 24">
+                            <path d="M12,11.5 C10.5,8.5 7.5,8.5 7.5,10.5 C7.5,12.5 10.5,12.5 12,11.5 Z" />
+                            <path d="M12.5,12 C15.5,10.5 15.5,7.5 13.5,7.5 C11.5,7.5 11.5,10.5 12.5,12 Z" />
+                            <path d="M12,12.5 C13.5,15.5 16.5,15.5 16.5,13.5 C16.5,11.5 13.5,11.5 12,12.5 Z" />
+                            <path d="M11.5,12 C8.5,13.5 8.5,16.5 10.5,16.5 C12.5,16.5 12.5,13.5 11.5,12 Z" />
+                            <path d="M12,12 C11,14 9,18 9,19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="orbit-ring"></div>
                     
                     <div class="system-node" id="n1" data-target="p1" style="color: var(--cls-knowledge)">📚<span>지식줍줍</span></div>
                     <div class="system-node" id="n2" data-target="p2" style="color: var(--cls-work)">💻<span>워크북</span></div>
@@ -442,69 +567,168 @@
 
                 <div class="logic-panel">
                     <div class="panel-card t-knowledge" id="p1" data-node="n1">
-                        <h3>📚 지식 줍줍 (인풋의 시스템화)</h3>
-                        <p>흩어지는 아이디어와 독서 인사이트를 무손실 보존합니다. 본업과 부업을 강화하는 최상위 핵심 연료입니다.</p>
+                        <h3>📚 지식 줍줍 (인풋 아카이빙)</h3>
+                        <p>무작위로 휘발되는 지식을 정제 보존합니다. 네잎클로버의 단단한 줄기를 지탱할 강력한 무손실 연료 창고입니다.</p>
                     </div>
                     <div class="panel-card t-work" id="p2" data-node="n2">
                         <h3>💻 일잘러의 워크북 (커리어 자산)</h3>
-                        <p>업무 성과와 핵심 지표를 기록하여 몸값을 극대화합니다. 가장 굳건한 메인 시드머니 창구입니다.</p>
+                        <p>성과 데이터를 누적하여 내 몸값을 치켜세웁니다. 가장 단단하고 확실한 본업 시드머니 유입 채널입니다.</p>
                     </div>
                     <div class="panel-card t-side" id="p3" data-node="n3">
-                        <h3>🚀 부캐 실험실 (현금흐름 다각화)</h3>
-                        <p>퇴근 후 리스크 없는 환경에서 소액 부업을 인큐베이팅합니다. 회사를 떠나 자립할 수 있는 제2의 엔진입니다.</p>
+                        <h3>🚀 부캐 실험실 (현금흐름 분사)</h3>
+                        <p>퇴근 후 로우 리스크 비즈니스를 실험합니다. 회사에 종속되지 않고 언제든 자립할 수 있게 만드는 제2의 엔진입니다.</p>
                     </div>
                     <div class="panel-card t-invest" id="p4" data-node="n4">
-                        <h3>💰 돈 버는 지도 (자산 스케일업)</h3>
-                        <p>주식, 비트코인 등 다각화된 포트폴리오를 관리합니다. 확보된 현금흐름의 증식 속도를 최고조로 가속합니다.</p>
+                        <h3>💰 돈 버는 지도 (자산 가속)</h3>
+                        <p>주식과 코인을 수식 대시보드로 완벽 리밸런싱합니다. 확보된 수입의 덩치를 폭발적으로 가속합니다.</p>
                     </div>
                     <div class="panel-card t-estate" id="p5" data-node="n5">
-                        <h3>🏢 내 집 마련 연구소 (부의 최종 고정)</h3>
-                        <p>청약 및 매매 분석을 통해 대한민국 시장에 맞는 실물 자산을 장악합니다. 자산의 안정이 가져다준 여유 시간은 다시 '지식 줍줍'의 연료로 리턴됩니다.</p>
+                        <h3>🏢 내 집 마련 연구소 (부의 완전 고정)</h3>
+                        <p>부동산 가치를 분석하여 대한민국 시장에 부를 굳건히 묶어둡니다. 이 안정감은 다시 위대한 인풋의 시간으로 순환합니다.</p>
                     </div>
                 </div>
             </div>
 
+            <!-- 전광판 스타일 한 줄 티커 바 -->
             <div class="loop-ticker">
                 <div class="ticker-wrap">
-                    지식은 생산성을 낳고 → 생산성은 현금흐름을 만들며 → 현금흐름은 자산을 증식하고 → 안정된 자산은 다시 고차원적 지식 탐구 시간을 제공합니다. 이것이 완벽한 무한 동력 루프입니다. | 지식은 생산성을 낳고 → 생산성은 현금흐름을 만들며 → 현금흐름은 자산을 증식하고 → 안정된 자산은 다시 고차원적 지식 탐구 시간을 제공합니다. 이것이 완벽한 무한 동력 루프입니다.
+                    지식은 생산성을 낳고 → 생산성은 현금흐름을 만들며 → 현금흐름은 자산을 증식하고 → 안정된 자산은 다시 고차원적 지식 탐구 시간을 제공합니다. 클로버인이 제안하는 영구적인 부의 피드백 루프입니다.
                 </div>
             </div>
         </div>
 
-        <!-- 2단계: 브랜드 스토리 구역 (스크롤을 내리면 사라락 등장) -->
-        <div class="story-section reveal">
+        <!-- [2] Clover in 감성스토리 브랜딩 명품 구역 -->
+        <div class="story-section">
             <div class="story-grid">
-                <div class="story-left">
-                    <h2>왜 직장인의 삶은<br>노력해도 제자리일까요?<br><span>정답은 '연결'에 있습니다.</span></h2>
+                <div class="story-left reveal">
+                    <h2>우연한 행운을 쫓는 삶에서,<br><span>필연적인 성장을 통제하는 삶으로.</span></h2>
                 </div>
                 <div class="story-right">
-                    <div class="story-block">
-                        <h4>치명적인 단절의 오류</h4>
-                        <p>열심히 책을 읽지만 회사 일에 적용하지 못하고, 회사에서 돈을 벌지만 재테크 데이터와 단절되어 있고, 부업을 꿈꾸지만 아카이빙된 지식이 없어 매번 제자리걸음을 걷습니다. 각각의 기어가 따로 놀기 때문입니다.</p>
+                    <div class="story-block reveal delay-1">
+                        <h4>세잎클로버의 역설, 행복을 짓밟는 행운들</h4>
+                        <p>우리는 흔히 지천에 널린 세잎클로버(매일의 소중한 일상과 본업)를 짓밟아가며 어쩌다 마주칠 네잎클로버(일확천금의 대박 정보)만을 찾아 헤맵니다. 하지만 진짜 자산가들은 일상이라는 잎을 시스템으로 단단히 다져내어, 그 안(in)에서 스스로 네잎클로버라는 필연적 기적을 피워냅니다.</p>
                     </div>
-                    <div class="story-block">
-                        <h4>단 하나의 통합 운영체제 (Life OS)</h4>
-                        <p>성공한 고효율 자산가들은 의지력을 믿지 않고 완벽하게 통제된 '기록 시스템'을 믿었습니다. 이 노션 템플릿 패키지는 단순한 메모장이 아닙니다. 당신의 지식, 커리어, 부업, 투자를 유기적 톱니바퀴로 결합해 스스로 굴러가게 만드는 무한 동력 기어입니다.</p>
+                    <div class="story-block reveal delay-2">
+                        <h4>내 일상 안(in)에 심는 행운의 운영체제</h4>
+                        <p>Clover in의 Life OS 패키지는 막연한 기대감에 인생을 거는 메모장이 아닙니다. 단절되어 흩어지던 지식의 축적, 커리어의 정량화된 지표, 소액 부업의 파이프라인을 하나의 유기적인 벨트로 연결하여 삶 전체를 대시보드 하나로 완벽하게 경영할 수 있도록 설계된 하이테크 플래너입니다.</p>
                     </div>
-                    <div class="story-block">
-                        <h4>완벽한 자립 시나리오</h4>
-                        <p>'지식 줍줍'으로 무장한 당신이 '워크북'으로 몸값을 올리고, '부캐 실험실'로 다각화된 현금을 '돈 버는 지도'에 공급한 뒤, 결국 '내 집 마련 연구소'에서 부를 영구 고정하는 선순환 구조. 이제 당신의 인생을 경영할 차례입니다.</p>
+                    <div class="story-block reveal delay-3">
+                        <h4>자립을 완벽히 정량화하는 루틴</h4>
+                        <p>출퇴근길 '지식 줍줍'이 본업 '워크북'의 연봉 상승으로, 퇴근 후 '부캐 실험'이 다각화된 현금 흐름으로, 그 자본이 '재테크 지도'를 거쳐 '내 집 마련 연구소'라는 완벽한 자산 둥지에 도달하는 선순환 구조. 진짜 행운은 통제된 시스템에서 시작됩니다.</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 최종 CTA (마찬가지로 스크롤 시 사라락 등장) -->
-        <div class="cta-center reveal">
-            <a href="#" class="btn-glow" onclick="alert('스마트스토어로 이동합니다!'); return false;">
-                무한 선순환 기어 장착하기 →
+        <!-- [3] 고스펙 기능 설명 테크니컬 구역 -->
+        <div class="feature-section">
+            <h3 class="section-title reveal">완벽한 자산 통제를 위한 고스펙 DB 설계</h3>
+            <div class="feature-grid">
+                <div class="feature-card reveal delay-1">
+                    <div class="f-icon">📊</div>
+                    <h5>관계형 데이터베이스 연동</h5>
+                    <p>5개의 독립된 페이지가 아닙니다. 지식 아카이빙 데이터가 부업 실험실의 아이디어 뱅크로 상호 유기적 롤업(Roll-up) 처리됩니다.</p>
+                </div>
+                <div class="feature-card reveal delay-2">
+                    <div class="f-icon">📈</div>
+                    <h5>실시간 자산 배분 대시보드</h5>
+                    <p>현재 보유한 주식, 비트코인의 유동 자산 비율을 수식과 프로그레스 바로 한눈에 시각화하여 이성적인 리밸런싱을 돕습니다.</p>
+                </div>
+                <div class="feature-card reveal delay-3">
+                    <div class="f-icon">⚡</div>
+                    <h5>고효율 템플릿 아키텍처</h5>
+                    <p>노션의 무거운 로딩 속도를 최소화하기 위해 인덱싱 요소를 최적화하여 스마트폰과 PC 어디서든 즉시 열고 기록할 수 있습니다.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- [4] 인스톨 프로세스 3단계 안내 구역 -->
+        <div class="flow-section">
+            <h3 class="section-title reveal">구매 후, 당신에게 일어날 3단계 변화</h3>
+            <div class="flow-grid">
+                <div class="flow-step reveal delay-1">
+                    <div class="step-number">01</div>
+                    <h6>클릭 한 번으로 클로버 이식</h6>
+                    <p>구매 직후 제공되는 링크를 통해 본인의 노션 워크스페이스에 단 5초 만에 복제되어 나만의 Clover in 시스템이 가동됩니다.</p>
+                </div>
+                <div class="flow-step reveal delay-2">
+                    <div class="step-number">02</div>
+                    <h6>데일리 데이터 러닝</h6>
+                    <p>출퇴근길에 줍줍한 지식, 업무 성과 지표를 루틴하게 타이핑하며 인생의 파이프라인 흐름을 숫자로 완벽히 정량화합니다.</p>
+                </div>
+                <div class="flow-step reveal delay-3">
+                    <div class="step-number">03</div>
+                    <h6>경제적 독립과 자동 성장</h6>
+                    <p>현금 흐름이 자산으로 변환되는 톱니바퀴가 완성되면, 더는 미래에 대해 불안해하지 않는 단단한 자립을 마주하게 됩니다.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 최종 결제 및 전환 링크 구역 -->
+        <div class="cta-center reveal delay-1">
+            <a href="#" class="btn-glow" onclick="alert('클로버인 스마트스토어로 이동합니다!'); return false;">
+                내 인생에 행운의 엔진 장착하기 →
             </a>
         </div>
 
     </div>
 
 <script>
-    /* 1. 마우스오버 양방향 하이라이트 */
+    /* 1. 날짜 기반 결정론적 점수 & 운세 알고리즘 */
+    const fortunes = [
+        { title: "📚 지식 줍줍 가속의 날", text: "오늘은 기발한 아이디어가 대거 흘러들어오는 날입니다. 독서나 스크랩 데이터베이스를 적극 활성화하면, 미래 부캐 실험실의 마르지 않는 샘물이 될 것입니다. 사소한 링크 하나도 놓치지 말고 수집하세요." },
+        { title: "💻 워크북 증명의 날", text: "본업에서의 정량적 성과가 돋보이는 하루입니다. 내가 오늘 처리한 핵심 KPI를 수치로 꼼꼼히 기록하세요. 상사와의 면담이나 연봉 협상 테이블에서 이 기록이 당신의 강력한 무기가 될 것입니다." },
+        { title: "🚀 부캐 인큐베이팅의 날", text: "머릿속으로만 구상하던 사이드 프로젝트를 린(Lean)하게 테스트하기 완벽한 타이밍입니다. 실패를 두려워하지 말고 1달러짜리 아주 작은 파이프라인 실험을 시작해 보세요. 놀라운 피드백이 올 것입니다." },
+        { title: "💰 돈 버는 지도 리밸런싱의 날", text: "유동 자산 포트폴리오를 냉철하게 점검할 시간입니다. 감정에 흔들려 매매하지 말고, 대시보드의 자산 비율 수식을 믿으세요. 철저하게 규칙 기반으로 포지션을 조정하면 행운이 따릅니다." },
+        { title: "🏢 내 집 마련 연구의 날", text: "대한민국 부동산 시장의 규제 변화나 청약 일정을 트래킹하기 좋은 날입니다. 당장 매수하지 않더라도, 내가 가고 싶은 입지의 실거래가 데이터를 아카이빙해 두면, 부를 매듭지을 결정적 안목이 생깁니다." }
+    ];
+
+    function generateDailyFortune() {
+        const nameInput = document.getElementById('visitor-name').value.trim();
+        if (!nameInput) {
+            alert('이름을 입력해 주세요!');
+            return;
+        }
+
+        // 오늘의 로컬 날짜 텍스트 구하기
+        const today = new Date();
+        const dateStr = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        
+        // 텍스트 매칭용 해시
+        const textSeed = nameInput + dateStr;
+        let textHash = 0;
+        for (let i = 0; i < textSeed.length; i++) {
+            textHash = textSeed.charCodeAt(i) + ((textHash << 5) - textHash);
+        }
+        const fortuneIndex = Math.abs(textHash) % fortunes.length;
+        const selectedFortune = fortunes[fortuneIndex];
+
+        // 74점 ~ 100점 고정 수치 계산용 스코어 해시
+        const scoreSeed = dateStr + nameInput + "cloverInScoreSystem2column";
+        let scoreHash = 0;
+        for (let i = 0; i < scoreSeed.length; i++) {
+            scoreHash = scoreSeed.charCodeAt(i) + ((scoreHash << 5) - scoreHash);
+        }
+        const finalScore = 74 + (Math.abs(scoreHash) % 27); 
+
+        // 🆕 1. 상단 가이드 텍스트 실시간 개인화 변경
+        document.getElementById('fortune-guide-text').innerText = `🍀 ${nameInput}님의 오늘의 행운지수 진단 완료!`;
+
+        // 🆕 2. 대시보드 2컬럼 레이아웃 바인딩
+        document.getElementById('fortune-score-num').innerText = finalScore;
+        document.getElementById('visitor-label').innerText = `${nameInput}'s SCORE`;
+        document.getElementById('fortune-title').innerText = `🎯 추천 루틴 : ${selectedFortune.title}`;
+        document.getElementById('fortune-text').innerText = selectedFortune.text;
+        
+        document.getElementById('fortune-output').style.display = 'block';
+        
+        // 게이지 바 애니메이션 작동
+        setTimeout(() => {
+            document.getElementById('score-bar').style.width = finalScore + '%';
+        }, 50);
+    }
+
+    /* 2. 그래픽 노드 - 패널 카드 쌍방향 호버 모션 */
     const nodes = document.querySelectorAll('.system-node');
     const cards = document.querySelectorAll('.panel-card');
 
@@ -533,22 +757,19 @@
         cards.forEach(c => c.classList.remove('active'));
     }
 
-    /* 2. 트렌디한 스크롤 감지 인터랙션 (Intersection Observer API) */
+    /* 3. 순차 노출형 스크롤 하드웨어 제어 (Intersection Observer) */
     const revealElements = document.querySelectorAll('.reveal');
-    
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
             }
         });
-    }, {
-        threshold: 0.12 // 타겟이 화면에 12% 이상 보이기 시작할 때 부드럽게 노출
-    });
+    }, { threshold: 0.10 });
 
     revealElements.forEach(el => observer.observe(el));
 
-    /* 3. 라이트/다크 모드 감성 스위칭 스크립트 */
+    /* 4. 라이트/다크 메쉬 UI 글래스 스위칭 공정 */
     const toggleBtn = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
     const themeText = document.getElementById('theme-text');
@@ -567,10 +788,7 @@
         }
     });
 
-    // 쾌적한 UX를 위해 첫 번째 판넬은 딜레이 후 자동 등장
-    setTimeout(() => {
-        if(revealElements[0]) revealElements[0].classList.add('active');
-    }, 150);
+    setTimeout(() => { if(revealElements[0]) revealElements[0].classList.add('active'); }, 150);
 </script>
 
 </body>
